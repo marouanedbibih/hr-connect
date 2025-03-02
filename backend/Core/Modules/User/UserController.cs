@@ -83,7 +83,7 @@ namespace backend.Core.Modules.User
             try
             {
                 var user = await _userService.CreateUserAsync(createUserRequest);
-                return CreatedAtAction(nameof(GetUserById), user);
+                return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
             }
             catch (BusinessException ex)
             {

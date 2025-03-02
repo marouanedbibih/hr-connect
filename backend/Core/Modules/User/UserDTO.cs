@@ -8,6 +8,10 @@ namespace backend.Core.Modules.User
     public class UserDTO
     {
         [Required]
+        [JsonPropertyName("id")]
+        public long Id { get; set; }
+
+        [Required]
         [MaxLength(50)]
         [JsonPropertyName("username")]
         public string Username { get; set; }

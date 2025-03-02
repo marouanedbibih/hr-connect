@@ -1,5 +1,7 @@
 using backend.Core.AutoMapperConfig;
 using backend.Core.Context;
+using backend.Core.Modules.User;
+using backend.Core.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -14,6 +16,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer"));
 });
+
+// Services Dependency Injection
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Automapper Configuration
 builder.Services.AddAutoMapper(typeof(AutoMapperConfigProfile));
@@ -55,8 +61,8 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    dbContext.Database.EnsureDeleted();  
-    dbContext.Database.EnsureCreated();  
+    dbContext.Database.EnsureDeleted();
+    dbContext.Database.EnsureCreated();
 }
 
 // Configure the HTTP request pipeline.

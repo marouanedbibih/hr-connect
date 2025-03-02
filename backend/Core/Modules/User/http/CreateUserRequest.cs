@@ -17,12 +17,12 @@ namespace backend.Core.Modules.User.Http
 
         [Required]
         [MaxLength(100)]
-        [JsonPropertyName("first_name")]
+        [JsonPropertyName("firstName")]
         public string FirstName { get; init; }
 
         [Required]
         [MaxLength(100)]
-        [JsonPropertyName("last_name")]
+        [JsonPropertyName("lastName")]
         public string LastName { get; init; }
 
         [Required]
@@ -39,16 +39,14 @@ namespace backend.Core.Modules.User.Http
         [JsonPropertyName("role")]
         public UserRole Role { get; init; }
 
-
-
-        // Constructor with required properties
-        public CreateUserRequest(string username,string passwor, string firstName, string lastName, string email, UserRole role, string? phone = null, DateTime? lastLogin = null)
+        [JsonConstructor]
+        public CreateUserRequest(string username, string password, string firstName, string lastName, string email, UserRole role, string? phone = null)
         {
             Username = username ?? throw new ArgumentNullException(nameof(username));
             FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
             LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
             Email = email ?? throw new ArgumentNullException(nameof(email));
-            Password = passwor ?? throw new ArgumentNullException(nameof(passwor));
+            Password = password ?? throw new ArgumentNullException(nameof(password));
             Role = role;
             Phone = phone;
         }
