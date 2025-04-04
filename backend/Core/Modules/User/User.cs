@@ -1,13 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using backend.Core.Enums;
-using backend.Core.Lib;
+using Microsoft.AspNetCore.Identity;
 
 namespace backend.Core.Modules.User
 {
     [Table("Users")]
-    public class User : BaseEntity
+    public class User : IdentityUser
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
         [Required]
         [MaxLength(50)]
         public string Username { get; set; }

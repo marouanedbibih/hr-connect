@@ -1,4 +1,4 @@
-import React, { createRef, useRef, useState } from "react";
+import { createRef, useState } from "react";
 import { useStateContext } from "../../context/ContextProvider";
 import axiosClient from "../../api/axios";
 
@@ -38,8 +38,8 @@ function Login() {
   return (
     <div className="grid grid-cols-1">
       {message && (
-        <div class="font-regular relative mb-4 block w-full rounded-lg bg-gradient-to-tr from-red-600 to-red-400 p-4 text-base leading-5 text-white opacity-100">
-          <i class="fas fa-exclamation mr-2"></i>
+        <div className="font-regular relative mb-4 block w-full rounded-lg bg-gradient-to-tr from-red-600 to-red-400 p-4 text-base leading-5 text-white opacity-100">
+          <i className="fas fa-exclamation mr-2"></i>
           {message}
         </div>
       )}

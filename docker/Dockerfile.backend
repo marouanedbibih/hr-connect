@@ -1,0 +1,12 @@
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+WORKDIR /app
+EXPOSE 80
+
+ENV DB_SERVER=localhost,1433
+ENV DB_NAME=test
+ENV DB_USER=sa
+ENV DB_PASSWORD=YourStrong!Passw0rd
+ENV JWT_SECRET=your_secret_key_here
+
+COPY . .
+ENTRYPOINT ["dotnet", "YourApp.dll"]

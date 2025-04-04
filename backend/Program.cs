@@ -1,3 +1,4 @@
+using backend.Config;
 using backend.Core.AutoMapperConfig;
 using backend.Core.Context;
 using backend.Core.Modules.User;
@@ -8,8 +9,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
 
+// Variables
 var builder = WebApplication.CreateBuilder(args);
-
+var configuration = builder.Configuration;
+var app = builder.Build();
 
 // DB Configuration
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -36,27 +39,31 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Configure JWT authentication
-var jwtConfig = builder.Configuration.GetSection("Jwt");
-var jwtSecret = jwtConfig.GetValue<string>("Secret");
+var jwtSettings = configuration.GetSection("Jwt").Get<JwtSettings>();
+var key = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSecret)),
-        ValidateIssuer = false,
-        ValidateAudience = false,
-    };
-});
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+app.UseAuthentication();
 
 
-var app = builder.Build();
+app.UseAuthorization();
+
+
 
 using (var scope = app.Services.CreateScope())
 {
@@ -82,10 +89,7 @@ app.UseCors(options =>
 });
 
 app.UseHttpsRedirection();
-app.UseAuthentication();
 
-
-app.UseAuthorization();
 
 app.MapControllers();
 

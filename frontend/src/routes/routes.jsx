@@ -1,7 +1,6 @@
-import { createBrowserRouter,Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import AuthLayout from "../layouts/AuthLayout";
 import Signup from "../views/auth/Signup";
-import Login from "../views/Auth/Login";
 
 // Admin Layout & View
 import AdminLayout from "../layouts/AdminLayout";
@@ -22,6 +21,7 @@ import CompanyDepartementInfos from "../views/companies/CompanyDepartementInfos"
 import EmployeeLayout from "../layouts/EmployeeLayout";
 import EmployeeList from "../views/employee/EmployeeList";
 import EmployeeForm from "../views/employee/EmployeeForm";
+import Login from "../views/auth/Login";
 
 
 const routes = createBrowserRouter([

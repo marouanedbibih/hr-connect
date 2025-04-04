@@ -1,0 +1,15 @@
+services:
+  backend:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile.backend
+    environment:
+      - DB_SERVER=hrconnect-sqlserver,1433
+      - DB_NAME=test
+      - DB_USER=sa
+      - DB_PASSWORD=YourStrong!Passw0rd
+      - JWT_SECRET=9b0512dd6675ac27956b660d48d47cd50f942a088f05699d0ce4e246596c3a75278795bd969a5fada9bc945cbad53db605851fe6679442f09660df4a77cffe7f
+    ports:
+      - "5000:5000"
+    networks:
+      - hrconnect-net
